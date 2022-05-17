@@ -57,49 +57,53 @@ const TabBody = ({tab}) => {
     return <div
         className={`${cs.tab_body} ${data.currentTab && data.currentTab.id === tab.id ? cs.tab_body__active : ''}`}>
         {
-            <div className={cs.tab_body__table}>
-                <table cellSpacing={0} cellPadding={0}>
-                    <thead>
-                    <tr>
+            <div className={cs.tab_body__content}>
+                <div className={cs.tab_body__table}>
+                    <table cellSpacing={0} cellPadding={0}>
+                        <thead>
+                        <tr>
+                            {
+                                header.map((item, index) => {
+                                    return <th key={index}>
+                                        <div className={cs.tab_body__table__header_text}>{item}</div>
+                                        <HeaderActions field={item} />
+                                    </th>
+                                })
+                            }
+                        </tr>
+                        </thead>
+                        <tbody>
                         {
-                            header.map((item, index) => {
-                                return <th key={index}>
-                                    <div className={cs.tab_body__table__header_text}>{item}</div>
-                                    <HeaderActions field={item} />
-                                </th>
+                            rows.map((row, rowIndex) => {
+                                return <tr key={rowIndex}>
+                                    {
+                                        header.map((key, index) => {
+                                            let val = row[key];
+                                            if(typeof val !== 'object') {
+                                                return <td key={index}>{val}</td>
+                                            } else {
+                                                if(window._.get(val, '$oid')) {
+                                                    return <td key={index}>{val.$oid}</td>
+                                                } else if(window._.get(val, '$date.$numberLong')) {
+                                                    return <td key={index}>{moment(parseInt(val.$date.$numberLong)).format('DD.MM.YYYY HH:mm:ss')}</td>
+                                                } else {
+                                                    return <td key={index}>{JSON.stringify(val)}</td>
+                                                }
+                                            }
+                                        })
+                                    }
+                                </tr>
                             })
                         }
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {
-                        rows.map((row, rowIndex) => {
-                            return <tr key={rowIndex}>
-                                {
-                                    header.map((key, index) => {
-                                        let val = row[key];
-                                        if(typeof val !== 'object') {
-                                            return <td key={index}>{val}</td>
-                                        } else {
-                                            if(window._.get(val, '$oid')) {
-                                                return <td key={index}>{val.$oid}</td>
-                                            } else if(window._.get(val, '$date.$numberLong')) {
-                                                return <td key={index}>{moment(parseInt(val.$date.$numberLong)).format('DD.MM.YYYY HH:mm:ss')}</td>
-                                            } else {
-                                                return <td key={index}>{JSON.stringify(val)}</td>
-                                            }
-                                        }
-                                    })
-                                }
-                            </tr>
-                        })
-                    }
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         }
-        <div className={cs.tab_body__info}>
-            adadad
+        <div className={cs['tab-info']}>
+            <div className={cs['tab-info__wrapper']}>
+                adadad
+            </div>
         </div>
     </div>
 }

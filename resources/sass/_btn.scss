@@ -1,0 +1,19 @@
+.btn {
+    display: flex;
+    align-items: center;
+    border-radius: 100px;
+    font-size: 14px;
+    font-weight: bold;
+    border: 0;
+    background: linear-gradient(45deg,$color-primary,$color-secondary);
+    padding: 0 1.5em;
+    cursor: pointer;
+    transition: all .3s;
+    color: #fff;
+    font-weight: bold;
+    height: 40px;
+
+    &:hover{
+        box-shadow: 0 5px 10px rgba($color-primary,0.7);
+    }
+}

@@ -1,25 +1,59 @@
+@import "resources/sass/variables";
+
 .tabs {
     display: flex;
     flex-direction: row;
     align-items: center;
     padding: 0;
     margin: 0;
-    border-bottom: 1px solid #e6e6e6;
+    &__close{
+        background-color: $color-border-table;
+        border-radius: 100px;
+        border: 0;
+        width: 20px;
+        height: 20px;
+        transform: translateX(10px);
+        cursor: pointer;
+        transition: all .3s;
+        &:hover{
+            background-color: #000;
+            color: #fff;
+        }
+    }
 }
 
 .tab {
-    border: 1px solid #e6e6e6;
-    border-bottom: 0;
+    display: flex;
+    align-items: center;
+    height: 36px;
     cursor: pointer;
     transition: .2s all;
-    padding: calc(.25rem + 2px) .5rem .25rem;
+    padding: 0 1.5rem;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    text-transform: capitalize;
+    position: relative;
+    background-color: #e6e6e6;
+    margin: 0 2px 0 0;
+    border: 2px solid #e6e6e6;
+    border-bottom: 0;
+    z-index: 1;
 
-    &.tab_active {
-        border-top: 3px solid #00a8ff;
-        padding-top: .25rem;
+    &::before{
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 0;
+        height: 5px;
+        width: 100%;
+        background-color: #fff;
+        opacity: 0;
     }
 
-    & ~ & {
-        border-left: 0;
+    &.tab_active {
+        background-color: #fff;
+        &::before{
+            opacity: 1;
+        }
     }
 }

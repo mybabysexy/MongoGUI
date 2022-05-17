@@ -1,0 +1,31 @@
+@import "resources/sass/variables";
+@import "resources/sass/btn";
+
+
+.connections {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: -1em;
+    margin-left: -1em;
+    margin-right: -1em;
+    padding: 1em;
+    border-bottom-left-radius: 19px;
+    border-bottom-right-radius: 19px;
+    &__header{
+        font-weight: bold;
+        font-size: 24px;
+        position: relative;
+        padding: 10px 0;
+        margin: 0;
+        &::before{
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background-image: linear-gradient($color-primary,$color-secondary);
+        }
+    }
+}

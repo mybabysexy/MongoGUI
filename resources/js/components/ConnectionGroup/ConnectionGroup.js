@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import CollectionItem from "../CollectionItem/CollectionItem";
+import cs from './style.module.scss';
 
 const ConnectionGroup = props => {
     const [collections, setCollections] = useState([]);
@@ -16,10 +17,10 @@ const ConnectionGroup = props => {
     }, []);
 
     return <div>
-        <div>
-            <b>mongodb</b>
-            <button onClick={getCollections}>
-                reload
+        <div className={`${cs.connections}`} >
+            <h1 className={`${cs.connections__header}`}>Mongodb</h1>
+            <button onClick={getCollections} className={`${cs.btn}`}>
+                Reload
             </button>
         </div>
         <ul>

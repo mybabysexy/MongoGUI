@@ -5,7 +5,19 @@ import DataContext from "../../contexts/DataContext";
 const TabHeaders = ({tabs}) => {
     const {data, setData} = useContext(DataContext);
 
+    const closeTab = (tab) => {
+        const filtered = data.tabs.filter(t => t.id !== tab.id);
+        setData(prev => {
+            return {
+                ...prev,
+                tabs: filtered,
+                currentTab: filtered.slice(-1)[0]
+            }
+        });
+    }
+
     const setActiveTab = (e, tab) => {
+        console.log(e);
         if(e.button === 1) {
             const filtered = data.tabs.filter(t => t.id !== tab.id);
             setData(prev => {
@@ -28,9 +40,11 @@ const TabHeaders = ({tabs}) => {
     return <div className={cs.tabs}>
         {
             tabs.map((tab, index) => {
-                return <div key={index} onMouseDown={e => setActiveTab(e, tab)}
-                            className={`${cs.tab} ${data.currentTab && data.currentTab.id === tab.id ? cs.tab_active:''}`}>
+                return <div key={index} onMouseDown={e => setActiveTab(e, tab)} className={`${cs.tab} ${data.currentTab && data.currentTab.id === tab.id ? cs.tab_active:''}`}>
                     {tab.name}
+                    <button className={cs.tabs__close} onClick={e => closeTab(tab)}>
+                        x
+                    </button>
                 </div>
             })
         }
