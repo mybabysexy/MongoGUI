@@ -1,0 +1,25 @@
+.tabs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.tab {
+    border: 1px solid #e6e6e6;
+    border-bottom: 0;
+    cursor: pointer;
+    transition: .2s all;
+    padding: calc(.25rem + 2px) .5rem .25rem;
+
+    &.tab_active {
+        border-top: 3px solid #00a8ff;
+        padding-top: .25rem;
+    }
+
+    & ~ & {
+        border-left: 0;
+    }
+}

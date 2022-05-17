@@ -1,0 +1,10 @@
+@import "resources/sass/variables";
+
+* {
+    font-family: $font-family-sans-serif;
+}
+
+.wrapper {
+    height: 100vh;
+    display: flex;
+}
