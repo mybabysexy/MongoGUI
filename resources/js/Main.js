@@ -9,6 +9,8 @@ import Welcome from "./components/Welcome/Welcome";
 import TabBody from "./components/TabBody/TabBody";
 import ConnectionGroup from "./components/ConnectionGroup/ConnectionGroup";
 import FilterItem from "./components/TabBody/FilterItem";
+import Header from './components/Header/Header';
+import { isMobile } from './helpers/utils';
 
 const Main = () => {
     const [data, setData] = useState(defaultData);
@@ -17,7 +19,8 @@ const Main = () => {
 
     return (
         <DataContext.Provider value={value}>
-            <div className={cs.wrapper}>
+            {isMobile() && <Header />}
+            <div className={`${cs.wrapper} ${isMobile && cs['on-mobile']}`}>
                 <SideBar>
                     <ConnectionGroup />
                 </SideBar>

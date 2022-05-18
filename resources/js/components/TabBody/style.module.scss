@@ -1,4 +1,4 @@
-@import "resources/sass/variables";
+@import "resources/sass/common";
 
 .tab {
     &_body {
@@ -11,6 +11,9 @@
         border-radius: 12px;
         border-top-left-radius: 0px;
         overflow: hidden;
+        @include isMobile {
+            padding-bottom: 0;
+        }
 
         &__active {
             display: flex;
@@ -29,6 +32,9 @@
             table {
                 margin-left: 1.25rem;
                 overflow: auto;
+                @include isMobile {
+                    margin-left: 0.5rem;
+                }
                 tr {
                     th {
                         font-weight: bold;
@@ -89,6 +95,9 @@
 .tab-info{
     padding: 1rem 1rem 0;
     display: flex;
+    @include isMobile {
+        padding: 0.5rem;
+    }
     &__wrapper {
         width: 100%;
         background-color: #ccc;

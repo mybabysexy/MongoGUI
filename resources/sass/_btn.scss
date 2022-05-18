@@ -12,8 +12,22 @@
     color: #fff;
     font-weight: bold;
     height: 40px;
+    
+    @include notMobile {
+        &:hover{
+            box-shadow: 0 5px 10px rgba($color-primary,0.7);
+        }
+    }
 
-    &:hover{
-        box-shadow: 0 5px 10px rgba($color-primary,0.7);
+    &__secondary{
+        background: #fff;
+        border: 2px solid $color-primary;
+        color: $color-primary;
+    }
+}
+.btn-group{
+    display: flex;
+    .btn + .btn{
+        margin-left: 5px;
     }
 }

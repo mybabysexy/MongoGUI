@@ -1,4 +1,4 @@
-@import "resources/sass/variables";
+@import "resources/sass/common";
 
 * {
     font-family: $font-family-sans-serif;
@@ -7,4 +7,11 @@
 .wrapper {
     height: 100vh;
     display: flex;
+    @include isMobile {
+        flex-wrap: wrap;
+    }
+}
+
+.on-mobile {
+
 }

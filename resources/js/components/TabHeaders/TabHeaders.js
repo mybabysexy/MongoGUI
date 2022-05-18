@@ -17,7 +17,6 @@ const TabHeaders = ({tabs}) => {
     }
 
     const setActiveTab = (e, tab) => {
-        console.log(e);
         if(e.button === 1) {
             const filtered = data.tabs.filter(t => t.id !== tab.id);
             setData(prev => {

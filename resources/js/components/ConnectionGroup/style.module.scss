@@ -1,5 +1,6 @@
-@import "resources/sass/variables";
+@import "resources/sass/common";
 @import "resources/sass/btn";
+@import "resources/sass/form";
 
 
 .connections {
@@ -27,5 +28,9 @@
             height: 3px;
             background-image: linear-gradient($color-primary,$color-secondary);
         }
+    }
+    &__search{
+        display: flex;
+        width: 100%;
     }
 }

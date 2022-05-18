@@ -1,0 +1,17 @@
+.form{
+    &__group{
+        display: flex;
+    }
+    &__controller{
+        display: flex;
+        border: 2px solid $color-border;
+        height: 30px;
+        border-radius: 100px;
+        width: 100%;
+        padding-left: 1rem;
+        flex: 1;
+        &::placeholder{
+            color: $color-border-table;
+        }
+    }
+}
