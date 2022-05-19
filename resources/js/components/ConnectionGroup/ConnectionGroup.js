@@ -49,11 +49,11 @@ const ConnectionGroup = props => {
         <div className={`${cs.connections}`} >
             <h1 className={`${cs.connections__header}`}>Mongodb</h1>
             <div className={`${cs['btn-group']}`}>
-                <button onClick={getCollections} className={`${cs.btn}`}>
+                <button onClick={getCollections} className={`${cs.btn} ${isMobile() && cs.btn__secondary}`}>
                     Reload
                 </button>
-                {isMobile() && <button onClick={closeSidebar} className={`${cs.btn} ${cs.btn__secondary}`}>
-                    Đóng
+                {isMobile() && <button onClick={closeSidebar} className={`${cs.btn}`}>
+                    x
                 </button>}
                 
             </div>
@@ -61,9 +61,11 @@ const ConnectionGroup = props => {
         <div className={cs.connections__search}>
             <input type="text" onChange={v => filterCollection(v.target.value)} className={cs.form__controller} placeholder="Tìm kiếm"/>
         </div>
-        <ul>
-            {filter.map(collection => <CollectionItem key={collection} collection={collection} />)}
-        </ul>
+        <div className={cs.connections__list}>
+            <ul>
+                {filter.map(collection => <CollectionItem key={collection} collection={collection} />)}
+            </ul>
+        </div>
     </div>;
 }
 

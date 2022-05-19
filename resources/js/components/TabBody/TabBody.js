@@ -3,6 +3,21 @@ import cs from './style.module.scss';
 import DataContext from "../../contexts/DataContext";
 import HeaderActions from "./HeaderActions";
 import moment from "moment";
+import { isMobile } from '../../helpers/utils';
+
+const renderItem = (key,value) => {
+    if(!value) return null;
+    return <div key={key} className={cs['tab-table__field']}>
+        <div className={cs['tab-table__title']}>{key}</div>
+        <div className={cs['tab-table__value']}>{value}</div>
+    </div>
+}
+
+const renderHeaderItem = (row) => {
+    const {_id,title} = row;
+    if(title) return <div className={cs['tab-table__heading']}>Title: {title}</div>
+    if(_id) return <div className={cs['tab-table__heading']}>_id: {_id}</div>;
+}
 
 const TabBody = ({tab}) => {
     const {data} = useContext(DataContext);
@@ -57,7 +72,35 @@ const TabBody = ({tab}) => {
     return <div
         className={`${cs.tab_body} ${data.currentTab && data.currentTab.id === tab.id ? cs.tab_body__active : ''}`}>
         {
-            <div className={cs.tab_body__content}>
+            isMobile() ? <div className={cs['tab-table']}>
+                {   rows.map((row, rowIndex) => {
+                        return <div key={rowIndex} className={cs['tab-table__item']}>
+                            <div className={cs['tab-table__head']}>
+                                {renderHeaderItem(row)}
+                            </div>
+                            <div className={cs['tab-table__content']}>
+                                {
+                                    header.map((key, index) => {
+                                        let val = row[key];
+                                        if(typeof val !== 'object') {
+                                            return renderItem(key,val);
+                                        } else {
+                                            if(window._.get(val, '$oid')) {
+                                                return renderItem(key,val.$oid);
+                                            } else if(window._.get(val, '$date.$numberLong')) {
+                                                return renderItem(key,moment(parseInt(val.$date.$numberLong)).format('DD.MM.YYYY HH:mm:ss'));
+                                            } else {
+                                                return renderItem(key,JSON.stringify(val));
+                                            }
+                                        }
+                                    })
+                                }
+                            </div>
+                        </div>
+                    })
+                }
+                </div>
+            : <div className={cs.tab_body__content}>
                 <div className={cs.tab_body__table}>
                     <table cellSpacing={0} cellPadding={0}>
                         <thead>

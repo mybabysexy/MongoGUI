@@ -33,4 +33,10 @@
         display: flex;
         width: 100%;
     }
+    &__list{
+        @include isMobile {
+            flex: 1;
+            overflow: hidden auto;
+        }
+    }
 }

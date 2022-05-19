@@ -15,7 +15,7 @@ const Header = props => {
     }
 
     return (
-        <button className={`${cs.header__button} ${cs.btn}`} onClick={() => toggleSidebar()}>Mở</button>
+        <button className={`${cs.header__button} ${cs.btn}`} onClick={() => toggleSidebar()}>Menu</button>
     );
 }
 
