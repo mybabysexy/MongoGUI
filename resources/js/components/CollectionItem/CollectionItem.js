@@ -1,8 +1,9 @@
-import React, {useCallback, useContext} from "react";
-import DataContext from "../../contexts/DataContext";
+import React, {useCallback} from "react";
+import {useDispatch} from "react-redux";
+import {tabActions} from "../../reducers/tabsSlice";
 
 const CollectionItem = ({collection}) => {
-    const {setData} = useContext(DataContext);
+    const dispatch = useDispatch();
 
     const fetchData = useCallback((e) => {
         e.preventDefault();
@@ -13,17 +14,8 @@ const CollectionItem = ({collection}) => {
             projections: [],
             sorts: [],
         }
-        setData(prev => ({
-            ...prev,
-            tabs: [
-                ...prev.tabs,
-                newTab
-            ],
-            currentTab: newTab,
-            activeSidebar: false
-        }));
+        dispatch(tabActions.addTab(newTab));
     }, []);
-
 
     return <li>
         <a href="#" onClick={fetchData}>

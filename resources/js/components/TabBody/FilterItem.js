@@ -1,53 +1,35 @@
-import React, {useContext, useCallback, useMemo, useState} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import cs from './style.module.scss';
-import DataContext from "../../contexts/DataContext";
+import {useDispatch, useSelector} from "react-redux";
+import {tabActions} from "../../reducers/tabsSlice";
 
 const FilterItem = ({filter}) => {
-    const {data, setData} = useContext(DataContext);
-    const currentTabData = useMemo(() => data.tabs.find(item => data.currentTab && item.id === data.currentTab.id), [data.currentTab, data.tabs]);
-    const currentFilter = useMemo(() => currentTabData.filters.find(item => item.id === filter.id), [currentTabData]);
+    const {tabs, activeTabId} = useSelector(state => state.tabs);
+    const dispatch = useDispatch();
+
+    const currentTabData = useMemo(() => tabs.find(item => item.id === activeTabId), [
+        activeTabId, tabs,
+    ]);
+    const currentFilter = useMemo(() => currentTabData.filters.find(item => item.id === filter.id), [
+        currentTabData
+    ]);
 
     const handleRemove = useCallback(() => {
-        setData(prev => {
-            return {
-                ...prev,
-                tabs: data.tabs.map(item => {
-                    if (item.id === data.currentTab.id) {
-                        return {
-                            ...item,
-                            filters: item.filters.filter(item => item.id !== filter.id)
-                        }
-                    }
-                    return item;
-                })
-            }
-        });
-    }, [filter, data]);
+        dispatch(tabActions.removeActiveTabFilter(filter.id));
+    }, [filter, currentTabData]);
 
     const handleChange = useCallback((e, key) => {
-        setData(prev => {
-            return {
-                ...prev,
-                tabs: data.tabs.map(item => {
-                    if (item.id === data.currentTab.id) {
-                        return {
-                            ...item,
-                            filters: item.filters.map(item => {
-                                if (item.id === filter.id) {
-                                    return {
-                                        ...item,
-                                        [key]: e.target.value
-                                    }
-                                }
-                                return item;
-                            })
-                        }
-                    }
-                    return item;
-                })
+        const modifiedFilters = currentTabData.filters.map(item => {
+            if (item.id === filter.id) {
+                return {
+                    ...item,
+                    [key]: e.target.value
+                }
             }
+            return item;
         });
-    }, [filter, data]);
+        dispatch(tabActions.setActiveTabFilters(modifiedFilters));
+    }, [filter, currentTabData]);
 
     return <div>
         <b>

@@ -1,17 +1,14 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import cs from './style.module.scss';
-import DataContext from "../../contexts/DataContext";
+import {useDispatch, useSelector} from "react-redux";
+import {sidebarActions} from "../../reducers/sidebarSlice";
 
 const Header = props => {
-    const {data, setData} = useContext(DataContext);
+    const {active} = useSelector(state => state.sidebar);
+    const dispatch = useDispatch();
 
     const toggleSidebar = () => {
-        setData(prev => {
-            return {
-                ...prev,
-                activeSidebar: !data.activeSidebar
-            }
-        });
+        dispatch(sidebarActions.setSidebar(!active));
     }
 
     return (

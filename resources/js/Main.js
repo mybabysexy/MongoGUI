@@ -1,9 +1,8 @@
-import React, {useState, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import ReactDOM from 'react-dom';
 import SideBar from "./components/SideBar/SideBar";
 import Body from "./components/Body/Body";
 import cs from './main.module.scss';
-import DataContext, {defaultData} from "./contexts/DataContext";
 import TabHeaders from "./components/TabHeaders/TabHeaders";
 import Welcome from "./components/Welcome/Welcome";
 import TabBody from "./components/TabBody/TabBody";
@@ -11,14 +10,21 @@ import ConnectionGroup from "./components/ConnectionGroup/ConnectionGroup";
 import FilterItem from "./components/TabBody/FilterItem";
 import Header from './components/Header/Header';
 import { isMobile } from './helpers/utils';
+import {QueryClientProvider, QueryClient} from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+import {Provider, useSelector} from "react-redux";
+import store from "./store";
+
+const queryClient = new QueryClient();
 
 const Main = () => {
-    const [data, setData] = useState(defaultData);
-    const value = useMemo(() => ({data, setData}), [data]);
-    const currentTabData = useMemo(() => data.tabs.find(item => data.currentTab && item.id === data.currentTab.id), [data.currentTab, data.tabs]);
+    const {tabs, activeTabId} = useSelector(state => state.tabs);
+    const currentTabData = useMemo(() => tabs.find(item => item.id === activeTabId), [
+        activeTabId, tabs,
+    ]);
 
     return (
-        <DataContext.Provider value={value}>
+        <>
             {isMobile() && <Header />}
             <div className={`${cs.wrapper} ${isMobile && cs['on-mobile']}`}>
                 <SideBar>
@@ -26,17 +32,16 @@ const Main = () => {
                 </SideBar>
                 <Body>
                     {
-                        data.tabs.length > 0 ? <>
-                            <TabHeaders tabs={data.tabs}/>
+                        tabs.length > 0 ? <>
+                            <TabHeaders tabs={tabs}/>
                             {
-                                data.tabs.map((tab, index) => <TabBody key={index} tab={tab}/>)
+                                tabs.map((tab, index) => <TabBody key={index} tab={tab}/>)
                             }
                         </> : <Welcome/>
                     }
                 </Body>
                 {
-                    currentTabData && (currentTabData.filters.length || currentTabData.projections.length || currentTabData.sorts.length) ? <SideBar side={'right'}>
-                        <button>Query</button>
+                    currentTabData?.filters.length || currentTabData?.projections.length || currentTabData?.sorts.length ? <SideBar side={'right'}>
                         {
                             currentTabData.filters.length ? <div>
                                 <h3>Filters</h3>
@@ -48,12 +53,17 @@ const Main = () => {
                     </SideBar> : null
                 }
             </div>
-        </DataContext.Provider>
+            <ReactQueryDevtools position={'bottom-right'} />
+        </>
     );
 }
 
 export default Main;
 
 if (document.getElementById('main')) {
-    ReactDOM.render(<Main/>, document.getElementById('main'));
+    ReactDOM.render(<Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+            <Main/>
+        </QueryClientProvider>
+    </Provider>, document.getElementById('main'));
 }

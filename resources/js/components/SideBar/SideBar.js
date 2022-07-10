@@ -1,13 +1,13 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import cs from './style.module.scss';
-import DataContext from "../../contexts/DataContext";
+import {useSelector} from "react-redux";
 
 const SideBar = props => {
-    const {data} = useContext(DataContext);
+    const {active} = useSelector(state => state.sidebar);
 
     let classSideBar = `${cs.sidebar} ${props.side === 'right' ? cs.sidebar__right : cs.sidebar__left}`;
 
-    if(data.activeSidebar && !props.side) {        
+    if(active && !props.side) {
         classSideBar = `${cs.sidebar} ${props.side === 'right' ? cs.sidebar__right : cs.sidebar__left} ${cs['active-sidebar']}`;
     }
 

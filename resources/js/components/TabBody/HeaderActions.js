@@ -1,37 +1,30 @@
-import React, {useContext, useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo} from 'react';
 import cs from './style.module.scss';
-import DataContext from "../../contexts/DataContext";
+import {useDispatch, useSelector} from "react-redux";
+import {tabActions} from "../../reducers/tabsSlice";
 
 const HeaderActions = props => {
-    const {data, setData} = useContext(DataContext);
-    const currentTabData = useMemo(() => data.tabs.find(item => data.currentTab && item.id === data.currentTab.id), [data.currentTab, data.tabs]);
+    const {tabs, activeTabId} = useSelector(state => state.tabs);
+    const dispatch = useDispatch();
+
+    const currentTabData = useMemo(() => tabs.find(item => item.id === activeTabId), [
+        activeTabId, tabs,
+    ]);
 
     const handleFilter = useCallback(() => {
-        setData(prev => {
-            return {
-                ...prev,
-                tabs: data.tabs.map(item => {
-                    if (item.id === data.currentTab.id) {
-                        return {
-                            ...item,
-                            filters: [
-                                ...item.filters,
-                                {
-                                    id: (new Date()).getTime(),
-                                    name: props.field,
-                                    type: 'string',
-                                    value: '',
-                                    operator: '=',
-                                    enabled: true
-                                }
-                            ]
-                        }
-                    }
-                    return item;
-                })
+        const newFilters = [
+            ...currentTabData.filters,
+            {
+                id: (new Date()).getTime(),
+                name: props.field,
+                type: 'string',
+                value: '',
+                operator: '=',
+                enabled: true
             }
-        });
-    }, [data]);
+        ];
+        dispatch(tabActions.setActiveTabFilters(newFilters));
+    }, [currentTabData]);
 
     return <div className={cs.tab_body__table__header_actions}>
         <button onClick={handleFilter}>Filter</button>
