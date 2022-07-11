@@ -3,9 +3,12 @@ import CollectionItem from "../CollectionItem/CollectionItem";
 import cs from './style.module.scss';
 import {isMobile} from '../../helpers/utils';
 import {useQuery} from "react-query";
+import {useDispatch} from "react-redux";
+import {sidebarActions} from "../../reducers/sidebarSlice";
 
 const ConnectionGroup = props => {
     const [filter, setFilter] = useState([]);
+    const dispatch = useDispatch();
 
     const fetchData = () => window.axios.get('/api/collections');
 
@@ -34,12 +37,7 @@ const ConnectionGroup = props => {
     }
 
     const closeSidebar = () => {
-        // setData(prev => {
-        //     return {
-        //         ...prev,
-        //         activeSidebar: false
-        //     }
-        // })
+        dispatch(sidebarActions.setSidebar(false));
     }
 
     return <div>

@@ -7,10 +7,10 @@ const sidebarSlice = createSlice({
         active: false,
     },
     reducers: {
-        activeSidebar: (state, action) => {
+        activeSidebar: (state) => {
             state.active = true;
         },
-        closeSidebar: (state, action) => {
+        closeSidebar: (state) => {
             state.active = false;
         },
         setSidebar: (state, action) => {
